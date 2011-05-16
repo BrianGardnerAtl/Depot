@@ -20,7 +20,7 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.new(:title => "My book title",
                           :description => "yyy",
                           :image_url => "zzz.jpg")
-    prroduct.price = -1
+    product.price = -1
     assert product.invalid?
     assert_equal "must be greater than or equal to 0.01",
                   product.errors[:price].join('; ')
@@ -42,7 +42,7 @@ class ProductTest < ActiveSupport::TestCase
 
   test "image url" do
     ok = %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg http://a.b.c/x/y/z/fred.gif }
-    bad = %{ fred.doc fred.gif/more fred.gif.more }
+    bad = %w{ fred.doc fred.gif/more fred.gif.more }
 
     ok.each do |name|
       assert new_product(name).valid?, "#{name} shouldn't be invalid"
@@ -54,7 +54,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test "product is not valid without a unique title" do
-    product = Porduct.new(:title => products(:ruby).title,
+    product = Product.new(:title => products(:ruby).title,
                           :description => "yyy",
                           :price => 1,
                           :image_url => "fred.gif")
